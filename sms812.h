@@ -3,6 +3,8 @@
 
 #include "Arduino.h"
 
+// #define DEBUG 1
+
 #define MESSAGE_HEAD 0xAA
 #define command_frame_size 6
 
@@ -15,21 +17,23 @@ class SMS812_Sensor{
     private:
         Stream *stream;               // e.g. SoftwareSerial or Serial1
         boolean newData;
-        byte commandCode, dataLen, checkSum;
-        // const unsigned char commandFrame[6];
-        // const unsigned char dataFrame[9];
+        byte commandCode, dataLen;
+        uint16_t checkSum;
         byte* dataMsg = NULL;
         byte* full_frame = NULL;
     public:
         SMS812_Sensor(Stream *s);
-        // void recvRadarBytes();
-        // void showData();
+        uint8_t material = 0, strength = 0;
+        uint16_t distance = 0;
+        char* iomaterial = "None";
         void setIOMode();
         void setUARTMode();
         void setUARTREQMode();
-        void checkUARTREQ(int delaytime = 0);
+        void checkUARTREQ(int delaytime = 0, bool showSwitch = true);
         uint8_t calculate_checksum(const uint8_t* buf, uint8_t size);
-        void getFrame();
+        bool getFrame(bool showSwitch = true);
+        bool parseDatagram(bool showSwitch = false);
+        bool parseIO();
 };
 
 
