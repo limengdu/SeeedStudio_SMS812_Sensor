@@ -26,10 +26,13 @@ void SMS812_Sensor::setUARTREQMode(){
 void SMS812_Sensor::checkUARTREQ(int delaytime, bool showSwitch){
   stream->write(checkreqmode_frame, command_frame_size);
   stream->flush();
-  getFrame(showSwitch);
+  if((!getFrame(showSwitch))){
+    // Serial.println("Please check whether it is currently UART mode or UART REQ mode!");
+    return;
+  }
   material = distance = strength = 0;
   material = this->full_frame[4];
-  distance = this->full_frame[5] + this->full_frame[6] << 8;
+  distance = this->full_frame[5] | (this->full_frame[6] << 8);
   strength = this->full_frame[6];
   delay(delaytime);
 }
@@ -145,27 +148,7 @@ bool SMS812_Sensor::parseDatagram(bool showSwitch) {
   return true;
 }
 
-bool SMS812_Sensor::parseIO(){
-  if (!stream->available()) {
-    return false;
-  }
-  else{
-    iomaterial = "Non-blanket";
-    return true;
-  }
-  // byte iodata = stream->read();
-  // if(iodata == '\0'){
-  //   iomaterial = "Non-blanket";
-  //   return true;
-  // }
-  // else if(iodata == '1'){
-  //   iomaterial = "Blanket";
-  //   return true;
-  // }
-  // else
-  //   Serial.print(iodata);
-  //   return false;
-}
+
 
 
 

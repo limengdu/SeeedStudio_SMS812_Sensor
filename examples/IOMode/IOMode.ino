@@ -1,5 +1,7 @@
 #include "sms812.h"
 
+const int radarPin = A0;
+
 //#include <SoftwareSerial.h>
 // Choose any two pins that can be used with SoftwareSerial to RX & TX
 //#define RX_Pin A2
@@ -16,22 +18,21 @@ SMS812_Sensor radar = SMS812_Sensor(&Serial1);
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
+  
   Serial1.begin(115200);
-
   //  mySerial.begin(115200);
 
-  while(!Serial);   //When the serial port is opened, the program starts to execute.
+  pinMode(radarPin, INPUT);
 
+  while(!Serial);   //When the serial port is opened, the program starts to execute.
   Serial.println("Ready");
+
+  radar.setIOMode();
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  radar.recvRadarBytes();           //Receive radar data and start processing
-  radar.showData();                 //Serial port prints a set of received data frames
-  delay(200);                       //Add time delay to avoid program jam
+  int value = analogRead(radarPin); // Read level status of D7 pin
+  Serial.println(value);
+  delay(500);
 }
-
-
-
-

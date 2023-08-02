@@ -33,7 +33,6 @@ class SMS812_Sensor{
         uint8_t calculate_checksum(const uint8_t* buf, uint8_t size);
         bool getFrame(bool showSwitch = true);
         bool parseDatagram(bool showSwitch = false);
-        bool parseIO();
 };
 
 
