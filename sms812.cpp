@@ -30,7 +30,7 @@ void SMS812_Sensor::checkUARTREQ(int delaytime, bool showSwitch){
     // Serial.println("Please check whether it is currently UART mode or UART REQ mode!");
     return;
   }
-  material = distance = strength = 0;
+  material = distance = strength = 3;
   material = this->full_frame[4];
   distance = this->full_frame[5] | (this->full_frame[6] << 8);
   strength = this->full_frame[6];
@@ -141,7 +141,7 @@ bool SMS812_Sensor::parseDatagram(bool showSwitch) {
     // Serial.println("Please check whether it is currently UART mode or UART REQ mode!");
     return false;
   }
-  material = distance = strength = 0;
+  material = distance = strength = 3;
   material = this->full_frame[4];
   distance = this->full_frame[5] | (this->full_frame[6] << 8);
   strength = this->full_frame[7];
