@@ -31,4 +31,14 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   radar.checkUARTREQ(1000, true);      // Check radar information every second. And turn on raw data frame display.
+
+  // Parses the contents of the data frame. If the function parseDatagram is given a true argument, the raw data frame display is enabled.
+  if(radar.material == 0x00){
+    Serial.println("No blankets detected.");
+    Serial.print("The measured distance is: ");
+    Serial.print(radar.distance);
+    Serial.println(" mm");
+    Serial.print("The ultrasonic signal strength is: ");
+    Serial.println(radar.strength);
+  }
 }
